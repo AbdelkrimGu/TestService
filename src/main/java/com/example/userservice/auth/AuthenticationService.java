@@ -15,6 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -107,13 +110,12 @@ public class AuthenticationService {
             request.getPassword()
         )
     );
-    System.out.println("111111");
     var user = repository.findByEmail(request.getEmail())
         .orElseThrow();
-    System.out.println("222222222");
     System.out.println(user.getEmail());
+    user.setConnexion(LocalDateTime.now());
+    repository.save(user);
     var jwtToken = jwtService.generateToken(user);
-    System.out.println("333333");
     return AuthenticationResponse.builder()
             .token(jwtToken)
             .role(user.getRole())

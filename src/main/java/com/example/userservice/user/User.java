@@ -1,5 +1,6 @@
 package com.example.userservice.user;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +52,11 @@ public class User implements UserDetails {
 
   @JsonIgnore
   private boolean enabled = false;
+
+  private boolean tutorial = true;
+
+  @JsonIgnore
+  private LocalDateTime connexion ;
 
 
   @JsonIgnore

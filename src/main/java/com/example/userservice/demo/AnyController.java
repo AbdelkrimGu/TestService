@@ -33,26 +33,17 @@ public class AnyController {
 
     }
 
+    @GetMapping("tutorial/disable")
+    public ResponseEntity<Boolean> deactivateTutorial(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        Optional<User> optionalUser = userRepository.findByEmail(userDetails.getUsername());
+        User user = optionalUser.get();
+        user.setTutorial(false);
 
+        userRepository.save(user);
 
-    public GTeacher serialize(User user, Teacher teacher){
-
-        System.out.println(user.getBio());
-        return GTeacher.builder()
-                .id(user.getId())
-                .nom(user.getLastname())
-                .prenom(user.getFirstname())
-                .adresse(user.getAdresse())
-                .date_naissance(user.getDateNaissance())
-                .ville(user.getVille())
-                .email(user.getEmail())
-                .etablissement(user.getEtablissement())
-                .imageUrl(user.getImageUrl())
-                .telephone(user.getTelephone())
-                .niveau(teacher.getNiveau())
-                .codePostal(user.getCodePostal())
-                .bio(user.getBio())
-                .build();
+        return ResponseEntity.ok(false);
     }
 
 }
